@@ -35,8 +35,10 @@ def search():
     #     title, session["uid"]
     # )
     # posts = list(db.session.execute(q))
+
+
     posts = (
-        db.session.query(Post)
+        db.session.query(Post) ## SQL文に相当
         .filter(Post.title == title and Post.uid == session["uid"])
         .all()
     )
