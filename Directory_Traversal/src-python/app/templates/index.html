@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <title>ファイル配布場</title>
+  <script>
+    window.onload = async () => {
+      const el = document.getElementById("files");
+      const outer = document.createElement("ul");
+      const t = await fetch("/list").then(r => r.text());
+      const files = JSON.parse(t);
+      files.map(f => {
+        const a = document.createElement("a");
+        a.href = `/download?id=${f}`;
+        a.innerText = f;
+
+        const li = document.createElement("li");
+        li.appendChild(a);
+
+        outer.appendChild(li);
+      });
+      el.innerHTML = "";
+      el.appendChild(outer);
+    };
+  </script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-three-quarters">
+        <div class="mt-6">
+          <h1 class="title is-1">ファイル配布場</h1>
+        </div>
+
+        <hr />
+
+        <section class="section">
+          <h2 class="title is-3">ファイル一覧</h2>
+          <div id="files">
+            ロード中です…
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
