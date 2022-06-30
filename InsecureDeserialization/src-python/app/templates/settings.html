@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block body %}
+<h1>設定</h1>
+<div class="row">
+  <form method="POST" class="col s12" action="/settings">
+    <div class="row">
+      <div class="input-field col s12">
+        <select name="color">
+          <option value="red">赤</option>
+          <option value="blue">青</option>
+        </select>
+        <label>お好みのカラーテーマ</label>
+      </div>
+    </div>
+    <div class="row">
+      <button class="btn waves-effect {{preference.color}} waves-light" type="submit" name="action">Submit
+        <i class="material-icons right"></i>
+      </button>
+    </div>
+  </form>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems, {});
+  });
+</script>
+{% endblock %}
