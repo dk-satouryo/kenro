@@ -1,10 +1,10 @@
 #!/usr/bin/python
 
 import os
-import pickle
+import json
 import functools
 import base64
-import urllib
+import urllib.parse
 from flask import Flask, request, render_template, make_response
 
 # pickle 等の危険なライブラリを外部からの信頼できない入力に使うのは避け、
@@ -16,13 +16,13 @@ app = Flask(__name__)
 
 def decode(preference_str):
     if preference_str != "":
-        return pickle.loads(base64.b64decode(preference_str))
+        return json.loads(base64.b64decode(preference_str))
     else:
         return {}
 
 
 def encode(preference):
-    return base64.b64encode(pickle.dumps(preference)).decode()
+    return base64.b64encode(json.dumps(preference)).decode()
 
 
 def preference(method):
@@ -30,7 +30,9 @@ def preference(method):
     def wrapper(*args, **kwargs):
         try:
             p_raw = request.cookies.get("preference", "")
+            print(urllib.parse.unquote(p_raw))
             preference = decode(urllib.parse.unquote(p_raw))
+            print(preference)
 
             if "color" not in preference:
                 preference["color"] = "red"
